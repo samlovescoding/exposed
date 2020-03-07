@@ -87,7 +87,7 @@ class Authentication extends CI_Controller {
     public function register(){
 		$this->form_validation->set_rules('name', 'Name', 'trim|required|min_length[3]|max_length[50]');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email|is_unique[user_authentication.email]');
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|alpha_dash|min_length[6]|max_length[20]|is_unique[user_authentication.email]');
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|alpha_dash|min_length[6]|max_length[20]|is_unique[user_authentication.username]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[8]|max_length[256]');
 
 		if($this->form_validation->run()){

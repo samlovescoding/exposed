@@ -5,6 +5,46 @@
             $this->view("dashboard/index");
         }
 
+        public function taxonomy(){
+            auth_can("taxonomy", "/dashboard");
+            $this->load->model("taxonomy");
+
+            $payload = [];
+
+            if(isset($_POST["category_label"])){
+                $this->form_validation->set_rules('category_label', 'Category Label', 'trim|required|min_length[3]|max_length[256]|is_unique[taxonomy.name]');
+                if($this->form_validation->run()){
+                    $label = $this->input->post("category_label");
+                    $this->taxonomy->create($label);
+                    $payload["success"] = "Category {$label} was successfully created.";
+                }
+            }
+            if(isset($_POST["category_parent"])){
+                $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required|min_length[3]|max_length[256]|is_unique[taxonomy_category.name]');
+                $this->form_validation->set_rules('category_parent', 'Category Parent', 'trim|required');
+                if($this->form_validation->run()){
+                    $name = $this->input->post("category_name");
+                    $parent = $this->input->post("category_parent");
+                    $this->taxonomy->create_category($name, $parent);
+                    $payload["success"] = "Category {$name} has been successfully added.";
+                }
+            }
+            if(isset($_POST["category_delete"])){
+                $id = $this->input->post("category_delete");
+                $this->taxonomy->delete_category($id);
+                $payload["success"] = "Category has been successfully deleted.";
+            }
+            if(isset($_POST["delete"])){
+                $id = $this->input->post("delete");
+                $this->taxonomy->delete($id);
+                $payload["success"] = "Label has been successfully deleted.";
+            }
+
+            $payload["taxonomy"] = $this->taxonomy->list_all_types();
+
+            $this->view("dashboard/taxonomy", $payload);
+        }
+
         public function profile(){
             $payload = array();
 

@@ -72,6 +72,14 @@
                         </li>
 
                         <?php if(auth_has_all("user roles", "user permissions", "user management", "user details")): ?>
+                        
+                        <li class="has-submenu">
+                            <a href="<?=base_url("dashboard/taxonomy")?>"><i class="ti-home"></i> Classification</a>
+                        </li>
+
+                        <?php endif; ?>
+
+                        <?php if(auth_has_all("user roles", "user permissions", "user management", "user details")): ?>
 
                         <li class="has-submenu">
                             <a href="#"><i class="ti-user"></i> Users <i class="mdi mdi-chevron-down mdi-drop"></i></a>
