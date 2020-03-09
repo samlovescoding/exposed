@@ -29,21 +29,7 @@
 <script src="<?=base_url()?>assets/plugins/plupload/plupload.full.min.js"></script>
 
 <div class="row m-t-10">
-    <div class="offset-sm-4 col-sm-4">
-        <div class="card">
-            <div class="card-body">
-                <div id="ccontainer">
-                    <button id="cpickfiles" class="btn btn-block btn-primary">Upload Files</button>
-                </div>
-                <div id="cfilelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="row">
-	<div class="col-sm-12">
+	<div class="col-md-8">
 		<div class="card">
 			<div class="card-body">
 				<h4 class="m-b-30 m-t-0">User Directory</h4>
@@ -59,7 +45,6 @@
 									<th>Options</th>
 								</tr>
 							</thead>
-
 
 							<tbody>
 								<?php foreach($files as $file): ?>
@@ -82,6 +67,16 @@
 			</div>
 		</div>
 	</div>
+  <div class="col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <div id="ccontainer">
+                <button id="cpickfiles" class="btn btn-block btn-primary">Upload Files</button>
+            </div>
+            <div id="cfilelist">Your browser doesn't have Flash, Silverlight or HTML5 support.</div>
+        </div>
+    </div>
+  </div>
 </div>
 
 
@@ -98,12 +93,19 @@
           chunk_size: '200kb',
           max_retries: 2,
           filters: {
-            max_file_size: '10mb',
-            mime_types: [{title: "Image files", extensions: "jpg,gif,png,*"}]
+            max_file_size: '128mb',
+            mime_types: [
+              {title: "Image files", extensions: "jpg,jpeg,gif,png,tif,tiff,bmp,tar"},
+              {title: "Audio/Video files", extensions: "avi,mp4,mpg,mpeg,mp3,mkv,mov,webm,3gp"},
+              {title: "Archive files", extensions: "zip,7z,gz,tar,xz"},
+              {title: "Document files", extensions: "doc,docx,xls,xlsx,csv,ppt,pptx,pdf"},
+              {title: "Executable files", extensions: "exe,bat,sh"},
+              {title: "Other files", extensions: "swf"},
+            ]
           },
           init: {
             PostInit: function () {
-              $("#cfilelist").html(`Refresh Page after files are uploaded.`);
+              $("#cfilelist").html("");
             },
             FilesAdded: function (up, files) {
               plupload.each(files, function (file) {
@@ -125,6 +127,9 @@
                         ${err.message}
                       </div>
                   </div>`);
+            },
+            UploadComplete: function(up, files){
+              location.reload();
             }
           }
         });
@@ -133,47 +138,47 @@
 </script>
 
 <script>
-!function($) {
-    "use strict";
+  !function($) {
+      "use strict";
 
-    var DataTable = function() {
-        this.$dataTableButtons = $("#datatable-buttons")
-    };
-    DataTable.prototype.createDataTableButtons = function() {
-        0 !== this.$dataTableButtons.length && this.$dataTableButtons.DataTable({
-            dom: "Bfrtip",
-            buttons: [{
-                extend: "copy",
-                className: "btn-success"
-            }, {
-                extend: "csv"
-            }, {
-                extend: "excel"
-            }, {
-                extend: "pdf"
-            }, {
-                extend: "print"
-            }],
-            responsive: !0
-        });
-    },
-    DataTable.prototype.init = function() {
-        //creating demo tabels
-        $('#datatable').dataTable();
-        
-        var table = $('#datatable-fixed-header').DataTable({fixedHeader: true});
+      var DataTable = function() {
+          this.$dataTableButtons = $("#datatable-buttons")
+      };
+      DataTable.prototype.createDataTableButtons = function() {
+          0 !== this.$dataTableButtons.length && this.$dataTableButtons.DataTable({
+              dom: "Bfrtip",
+              buttons: [{
+                  extend: "copy",
+                  className: "btn-success"
+              }, {
+                  extend: "csv"
+              }, {
+                  extend: "excel"
+              }, {
+                  extend: "pdf"
+              }, {
+                  extend: "print"
+              }],
+              responsive: !0
+          });
+      },
+      DataTable.prototype.init = function() {
+          //creating demo tabels
+          $('#datatable').dataTable();
+          
+          var table = $('#datatable-fixed-header').DataTable({fixedHeader: true});
 
-        //creating table with button
-        this.createDataTableButtons();
-    },
-    //init
-    $.DataTable = new DataTable, $.DataTable.Constructor = DataTable
-}(window.jQuery),
+          //creating table with button
+          this.createDataTableButtons();
+      },
+      //init
+      $.DataTable = new DataTable, $.DataTable.Constructor = DataTable
+  }(window.jQuery),
 
-//initializing
-function ($) {
-    "use strict";
-    $.DataTable.init();
-}(window.jQuery);
+  //initializing
+  function ($) {
+      "use strict";
+      $.DataTable.init();
+  }(window.jQuery);
 </script>
 

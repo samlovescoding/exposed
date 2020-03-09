@@ -1,5 +1,12 @@
 <?
 
+/*
+ * Byteserve Helper
+ * 
+ * Shamelessly copied from https://github.com/rvflorian/byte-serving-php
+ * All credit goes to rvflorian for this script.
+*/
+
 function set_range($range, $filesize, &$first, &$last){
   /*
   Sets the first and last bytes of a range, given a range expressed as a string 
