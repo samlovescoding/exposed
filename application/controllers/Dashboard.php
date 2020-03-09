@@ -1,5 +1,34 @@
 <?php
 
+function formatSizeUnits($bytes){
+    if ($bytes >= 1073741824)
+    {
+        $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+    }
+    elseif ($bytes >= 1048576)
+    {
+        $bytes = number_format($bytes / 1048576, 2) . ' MB';
+    }
+    elseif ($bytes >= 1024)
+    {
+        $bytes = number_format($bytes / 1024, 2) . ' KB';
+    }
+    elseif ($bytes > 1)
+    {
+        $bytes = $bytes . ' bytes';
+    }
+    elseif ($bytes == 1)
+    {
+        $bytes = $bytes . ' byte';
+    }
+    else
+    {
+        $bytes = '0 bytes';
+    }
+
+    return $bytes;
+}
+
     class Dashboard extends CI_Controller{
         public function index(){
             $this->view("dashboard/index");
@@ -9,14 +38,67 @@
             auth_can("cloud", "/dashboard");
 
             $user_folder = "cdn/" . md5(auth()->id) . "/";
+            
             if(!file_exists($user_folder)){
                 mkdir($user_folder);
             }
 
-            $this->view("dashboard/cloud");
+            $glob = glob($user_folder . "*.*");
+            $files = [];
+            foreach ($glob as $file) {
+                $files[] = array(
+                    "name" => basename($file),
+                    "size" => formatSizeUnits(filesize($file)),
+                    "mime" => mime_content_type($file),
+                    "date_modified" => date("Y-m-d H:i:s", filemtime($file))
+                );
+            }
+
+            $this->view("dashboard/cloud", compact("files"));
+        }
+        public function cloud_download($filename){
+            auth_can("cloud", "/dashboard");
+
+            $user_folder = "cdn/" . md5(auth()->id) . "/";
+            
+            if(!file_exists($user_folder)){
+                mkdir($user_folder);
+            }
+
+            if(file_exists($user_folder . $filename)){
+                $file = $user_folder . $filename;
+                
+                header('Content-Type: application/octet-stream');
+                header("Content-Transfer-Encoding: Binary"); 
+                header("Content-disposition: attachment; filename=\"" . basename($file) . "\""); 
+                ob_clean(); 
+                flush();
+                readfile($file); 
+                exit();
+            }else{
+                http_response_code(404);
+            }
+        }
+        public function cloud_delete($filename){
+            auth_can("cloud", "/dashboard");
+
+            $user_folder = "cdn/" . md5(auth()->id) . "/";
+            
+            if(!file_exists($user_folder)){
+                mkdir($user_folder);
+            }
+
+            if(file_exists($user_folder . $filename)){
+                $file = $user_folder . $filename;
+                unlink($file);
+                redirect(base_url("dashboard/cloud"));
+            }else{
+                http_response_code(404);
+            }
         }
         public function cloud_upload(){
             auth_can("cloud", "/dashboard");
+            
             function verbose($ok=1,$info=""){
                 if ($ok==0) { http_response_code(400); }
                 die(json_encode(["ok"=>$ok, "info"=>$info]));
@@ -26,19 +108,21 @@
                 verbose(0, "Failed to move uploaded file.");
             }
 
-            $filePath = "cdn/" . md5(auth()->id);
+            $filePath = "cdn" . DIRECTORY_SEPARATOR . md5(auth()->id);
 
             if (!file_exists($filePath)) { 
                 if (!mkdir($filePath, 0777, true)) {
                     verbose(0, "Failed to create $filePath");
                 }
             }
+            
             $fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : $_FILES["file"]["name"];
             $filePath = $filePath . DIRECTORY_SEPARATOR . $fileName;
 
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
             $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
             $out = @fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
+
             if ($out) {
                 $in = @fopen($_FILES['file']['tmp_name'], "rb");
                 if ($in) {
@@ -55,6 +139,7 @@
 
             if (!$chunks || $chunk == $chunks - 1) {
                 rename("{$filePath}.part", $filePath);
+                chmod($filePath, 0777);
             }
             verbose(1, "Upload OK");
         }
