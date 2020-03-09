@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 10:09 PM
+-- Generation Time: Mar 09, 2020 at 01:00 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -144,7 +144,15 @@ INSERT INTO `user_logs` (`id`, `type`, `message`, `user`, `ip_address`, `date_lo
 (1, 'auth', 'logout', 1, '::1', '2020-03-01 21:07:56'),
 (2, 'auth', 'login', 1, '::1', '2020-03-01 21:08:01'),
 (3, 'auth', 'login', 1, '::1', '2020-03-07 12:10:59'),
-(4, 'auth', 'login', 1, '::1', '2020-03-07 21:54:00');
+(4, 'auth', 'login', 1, '::1', '2020-03-07 21:54:00'),
+(5, 'auth', 'login', 1, '::1', '2020-03-08 08:24:28'),
+(6, 'auth', 'logout', 1, '::1', '2020-03-08 08:30:22'),
+(7, 'auth', 'logout', 1, '::1', '2020-03-08 08:30:34'),
+(8, 'auth', 'logout', 1, '::1', '2020-03-08 08:30:45'),
+(9, 'auth', 'logout', 1, '::1', '2020-03-08 08:30:53'),
+(10, 'auth', 'login', 1, '::1', '2020-03-08 08:31:12'),
+(11, 'auth', 'logout', 1, '::1', '2020-03-08 09:02:59'),
+(12, 'auth', 'login', 1, '::1', '2020-03-08 09:03:06');
 
 -- --------------------------------------------------------
 
@@ -167,7 +175,8 @@ INSERT INTO `user_permissions` (`id`, `name`) VALUES
 (3, 'user management'),
 (4, 'user details'),
 (5, 'user logs'),
-(6, 'taxonomy');
+(6, 'taxonomy'),
+(7, 'cloud');
 
 -- --------------------------------------------------------
 
@@ -205,12 +214,14 @@ CREATE TABLE `user_roles_permissions` (
 --
 
 INSERT INTO `user_roles_permissions` (`permission`, `role`) VALUES
+(7, 1),
 (1, 2),
 (2, 2),
 (3, 2),
 (4, 2),
 (5, 2),
-(6, 2);
+(6, 2),
+(7, 2);
 
 --
 -- Indexes for dumped tables
@@ -318,13 +329,13 @@ ALTER TABLE `user_information`
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_permissions`
 --
 ALTER TABLE `user_permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user_roles`

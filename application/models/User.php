@@ -139,6 +139,7 @@ class User extends CI_Model{
             return false;
         }
     }
+
     public function get_token_user($token){
         $token = $this->db->where("token", $token)->get("user_authentication_tokens")->row();
         return $this->db->where("id", $token->user)->get("user_authentication")->row();
@@ -326,6 +327,7 @@ class User extends CI_Model{
             "ip_address" => $_SERVER['REMOTE_ADDR'],
             "date_logged" => date("Y-m-d H:i:s")
         ));
+        
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
     class Taxonomy extends CI_Model{
+        
         function create($name){
             $this->db->insert("taxonomy", array(
                 "name" => $name

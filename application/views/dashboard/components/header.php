@@ -71,10 +71,18 @@
                             <a href="<?=base_url("dashboard/")?>"><i class="ti-home"></i> Dashboard</a>
                         </li>
 
-                        <?php if(auth_has_all("user roles", "user permissions", "user management", "user details")): ?>
+                        <?php if(auth_has_all("cloud")): ?>
                         
                         <li class="has-submenu">
-                            <a href="<?=base_url("dashboard/taxonomy")?>"><i class="ti-home"></i> Classification</a>
+                            <a href="<?=base_url("dashboard/cloud")?>"><i class="ti-harddrives"></i> Cloud</a>
+                        </li>
+
+                        <?php endif; ?>
+
+                        <?php if(auth_has_all("taxonomy")): ?>
+                        
+                        <li class="has-submenu">
+                            <a href="<?=base_url("dashboard/taxonomy")?>"><i class="ti-list"></i> Classification</a>
                         </li>
 
                         <?php endif; ?>
