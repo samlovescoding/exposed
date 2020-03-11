@@ -25,5 +25,5 @@ class Cloud extends CI_Controller {
         }else{
             http_response_code(404);
         }
-	}
+    }
 }

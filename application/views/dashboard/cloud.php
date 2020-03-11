@@ -95,9 +95,9 @@
           filters: {
             max_file_size: '128mb',
             mime_types: [
-              {title: "Image files", extensions: "jpg,jpeg,gif,png,tif,tiff,bmp,tar"},
-              {title: "Audio/Video files", extensions: "avi,mp4,mpg,mpeg,mp3,mkv,mov,webm,3gp"},
-              {title: "Archive files", extensions: "zip,7z,gz,tar,xz"},
+              {title: "Image files", extensions: "jpg,jpeg,gif,png,tif,tiff,bmp"},
+              {title: "Audio/Video files", extensions: "avi,mp4,mpg,mpeg,wav,mp3,ogg,mkv,mov,webm,3gp"},
+              {title: "Archive files", extensions: "zip,7z,gz,tar,xz,rar"},
               {title: "Document files", extensions: "doc,docx,xls,xlsx,csv,ppt,pptx,pdf"},
               {title: "Executable files", extensions: "exe,bat,sh"},
               {title: "Other files", extensions: "swf"},

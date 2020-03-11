@@ -74,7 +74,43 @@
                         <?php if(auth_has_all("cloud")): ?>
                         
                         <li class="has-submenu">
-                            <a href="<?=base_url("dashboard/cloud")?>"><i class="ti-harddrives"></i> Cloud</a>
+                            <a href="<?=base_url("dashboard/cloud")?>"><i class="ti-harddrives"></i> Files</a>
+                        </li>
+
+                        <?php endif; ?>
+
+
+                        <?php if(auth_has_all("course creator")): ?>
+
+                        <li class="has-submenu">
+                            <a href="#"><i class="ti-pencil"></i> Courses <i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="<?=base_url("coursecreator/create")?>">Create Courses </a>
+                                </li>
+                                <li>
+                                    <a href="<?=base_url("coursecreator/all")?>">View Courses </a>
+                                </li>
+                                <!-- <li>
+                                    <a href="<?=base_url("coursecreator/create_path")?>">Create Learning Path </a>
+                                </li> -->
+                            </ul>
+                        </li>
+
+                        <?php endif; ?>
+
+                        <?php if(auth_has_all("templates creator")): ?>
+
+                        <li class="has-submenu">
+                            <a href="#"><i class="ti-palette"></i> Templates <i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="<?=base_url("templatecreator/create")?>">Create Template </a>
+                                </li>
+                                <li>
+                                    <a href="<?=base_url("templatecreator/all")?>">View Templates </a>
+                                </li>
+                            </ul>
                         </li>
 
                         <?php endif; ?>
