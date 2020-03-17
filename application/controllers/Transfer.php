@@ -361,4 +361,37 @@ class Transfer extends CI_Controller {
 
         }
     }
+
+    public function template(){
+        if(isset($_POST["json"])){
+            $template = json_decode($_POST["json"]);
+            $count = $this->db->where("slug", $template->slug)->count_all_results("templates");
+            if($count == 0){
+                $this->db->insert("templates", array(
+                    "name" => $template->name,
+                    "slug" => $template->slug,
+                    "description" => $template->description,
+                    "screenshot" => $template->screenshot,
+                    "source" => $template->source,
+                    "links" => $template->links,
+                    "file" => $template->file
+                ));
+                $id = $this->db->insert_id();
+                print("Inserted at id {$id}.");
+            }else{
+                $id = $this->db->where("slug", $template->slug)->get("templates")->row()->id;
+                print("Template already exists at {$id}.");
+            }
+        }
+    }
+
+    public function templates(){
+        print(json_encode($this->db->get("templates")->result()));
+    }
+    public function template_update($id, $key, $value){
+        $this->db->update("templates", array(
+            $key => $value
+        ), compact("id"));
+        print($id);
+    }
 }

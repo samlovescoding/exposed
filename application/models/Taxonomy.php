@@ -12,7 +12,7 @@
             $categories = $this->db->where("id", $id)->get("taxonomy_category")->result();
             foreach ($categories as $category) {
                 $this->db->delete("taxonomy_links", array(
-                    "taxonomy" => $category->id
+                    "category" => $category->id
                 ));
             }
             $this->db->delete("taxonomy_category", array(

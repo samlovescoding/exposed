@@ -7,8 +7,8 @@
         public function all(){
             return $this->db->get("course")->result();
         }
-        public function create($title, $description, $publisher, $instructors){
-            $this->db->insert("course", compact("title", "description", "publisher", "instructors"));
+        public function create($title, $description, $publisher, $instructors, $preview = "default.jpg"){
+            $this->db->insert("course", compact("title", "description", "publisher", "instructors", "preview"));
         }
         public function delete($id){
             $this->db->delete("course", compact(id));

@@ -79,22 +79,19 @@
 
                         <?php endif; ?>
 
+                        <?php if(auth_has_all("movies creator")): ?>
+
+                        <li class="has-submenu">
+                            <a href="<?=base_url("moviescreator/all")?>"><i class="ti-video-camera"></i> Movies</a>
+                        </li>
+
+                        <?php endif; ?>
+
 
                         <?php if(auth_has_all("course creator")): ?>
 
                         <li class="has-submenu">
-                            <a href="#"><i class="ti-pencil"></i> Courses <i class="mdi mdi-chevron-down mdi-drop"></i></a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="<?=base_url("coursecreator/create")?>">Create Courses </a>
-                                </li>
-                                <li>
-                                    <a href="<?=base_url("coursecreator/all")?>">View Courses </a>
-                                </li>
-                                <!-- <li>
-                                    <a href="<?=base_url("coursecreator/create_path")?>">Create Learning Path </a>
-                                </li> -->
-                            </ul>
+                            <a href="<?=base_url("coursecreator/all")?>"><i class="ti-pencil"></i> Courses</a>
                         </li>
 
                         <?php endif; ?>
@@ -102,15 +99,7 @@
                         <?php if(auth_has_all("templates creator")): ?>
 
                         <li class="has-submenu">
-                            <a href="#"><i class="ti-palette"></i> Templates <i class="mdi mdi-chevron-down mdi-drop"></i></a>
-                            <ul class="submenu">
-                                <li>
-                                    <a href="<?=base_url("templatecreator/create")?>">Create Template </a>
-                                </li>
-                                <li>
-                                    <a href="<?=base_url("templatecreator/all")?>">View Templates </a>
-                                </li>
-                            </ul>
+                            <a href="<?=base_url("templatecreator/all")?>"><i class="ti-palette"></i> Templates</a>
                         </li>
 
                         <?php endif; ?>

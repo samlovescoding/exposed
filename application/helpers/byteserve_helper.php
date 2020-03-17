@@ -149,6 +149,9 @@ function byteserve($filename){
     header("Accept-Ranges: bytes");
     header("Content-Length: $filesize");
     header("Content-Type: $mime");
+    if (ob_get_level()) {
+      ob_end_clean();
+    }
     readfile($filename);
   }
   fclose($file);

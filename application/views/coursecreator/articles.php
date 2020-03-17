@@ -47,7 +47,7 @@
                                         <td><?=$article->description?></td> 
                                         <td>
                                             <form action="<?=base_url("coursecreator/edit_article_resource/" . $article->id)?>" method="post">
-                                                <input name="resource" class="form-control" type="text" value="<?=$article->video?>">
+                                                <input name="resource" class="form-control" type="text" value="<?=$article->resource?>">
                                                 <button class="btn btn-info btn-block m-t-5" type="submit">
                                                     <i class="fa fa-check"></i> Save
                                                 </button>

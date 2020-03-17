@@ -36,14 +36,78 @@ class Coursecreator extends CI_Controller {
             $publisher = $this->input->post("publisher");
             $instructor = $this->input->post("instructor");
 
+            $screenshot = "default.jpg";
+
+            if(isset($_FILES["screenshot"])){
+                $file = $_FILES["screenshot"];
+                $filename = md5(time().rand(0,10000));
+
+                move_uploaded_file($file["tmp_name"], FCPATH . "data/course_previews/" . $filename . ".jpg");
+                if(file_exists(FCPATH . "data/course_previews/" . $filename . ".jpg")){
+                    $config['image_library'] = 'gd2';
+                    $config['source_image'] = FCPATH . "data/course_previews/" . $filename . ".jpg";
+                    $config['create_thumb'] = TRUE;
+                    $config['maintain_ratio'] = TRUE;
+                    $config['width']         = 640;
+                    $config['height']       = 360;
+                    $this->load->library('image_lib', $config);
+                    if ( ! $this->image_lib->resize())
+                    {
+                            echo $this->image_lib->display_errors();
+                            die();
+                    }
+                    $screenshot = $filename;
+                }else{
+                    $screenshot = "default.jpg";
+                }
+            }
+
             $this->load->model("course");
-            $this->course->create($title, $description, $publisher, $instructor);
+            $this->course->create($title, $description, $publisher, $instructor, $screenshot);
 
             $_SESSION["flash_message"] = "Course has been created.";
             redirect("coursecreator/all");
         }
 
 		$this->view('coursecreator/create_course', $payload);
+    }
+    public function update_course($id, $key){
+        if($key != "preview"){
+            $this->db->update("course", array(
+                $key => $this->input->post($key)
+            ), compact("id"));
+        }else{
+            $course = $this->db->where(compact("id"))->get("course")->row();
+            $screenshot = $course->preview;
+            
+            if(isset($_FILES["preview"])){
+                $file = $_FILES["preview"];
+                $filename = md5(time().rand(0,10000));
+
+                move_uploaded_file($file["tmp_name"], FCPATH . "data/course_previews/" . $filename . ".jpg");
+                if(file_exists(FCPATH . "data/course_previews/" . $filename . ".jpg")){
+                    $config['image_library'] = 'gd2';
+                    $config['source_image'] = FCPATH . "data/course_previews/" . $filename . ".jpg";
+                    $config['create_thumb'] = TRUE;
+                    $config['maintain_ratio'] = TRUE;
+                    $config['width']         = 640;
+                    $config['height']       = 360;
+                    $this->load->library('image_lib', $config);
+                    if ( ! $this->image_lib->resize())
+                    {
+                            echo $this->image_lib->display_errors();
+                            die();
+                    }
+                    $screenshot = $filename;
+                }else{
+                    $screenshot = $course->preview;
+                }
+            }
+        }
+        $this->db->update("course", array(
+            "preview" => $screenshot
+        ), compact("id"));
+        redirect("coursecreator/modules/" . $id);
     }
     public function modules($id){
         auth_can("course creator", "/dashboard");
@@ -81,9 +145,9 @@ class Coursecreator extends CI_Controller {
         $payload["module"] = $this->course->module_find($module_id);
 
         $this->form_validation->set_rules("title", "Title", "trim|required");
-        $this->form_validation->set_rules("video", "Title", "trim|required");
-        $this->form_validation->set_rules("description", "Title", "trim|required");
-        $this->form_validation->set_rules("resource", "Title", "trim|required");
+        $this->form_validation->set_rules("video", "Video", "trim|required");
+        $this->form_validation->set_rules("description", "Description", "trim");
+        $this->form_validation->set_rules("resource", "Resource", "trim");
         if($this->form_validation->run()){
             $title = $this->input->post("title");
             $video = $this->input->post("video");

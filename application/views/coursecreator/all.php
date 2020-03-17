@@ -5,6 +5,7 @@
                 <div class="col-md-8">
                     <h4 class="page-title m-0">Courses List</h4>
                 </div>
+                <div class="col-md-4"><a class="btn btn-primary btn-block" href="<?=base_url("coursecreator/create")?>">Create</a></div>
             </div>
         </div>
     </div>

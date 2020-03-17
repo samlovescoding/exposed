@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h4 class="m-t-0 m-b-30">Create a Course</h4>
 
-                <form class="form-horizontal" method="post">
+                <form class="form-horizontal" method="post" enctype="multipart/form-data">
                     <div class="form-group row">
                         <label class="col-sm-2 control-label" for="title">Title</label>
                         <div class="col-sm-10">
@@ -15,6 +15,12 @@
                         <label class="col-sm-2 control-label" for="description">Description</label>
                         <div class="col-sm-10">
                             <textarea name="description" class="form-control" rows="5" id="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label" for="screenshot">Screenshot/Preview</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="file" name="screenshot">
                         </div>
                     </div>
                     <div class="form-group row">
